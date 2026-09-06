@@ -555,30 +555,7 @@
     text-align:center;
     margin:0 0 12px;
   }
-
-
-  .britney-player{
-    position:fixed;
-    right:14px;
-    bottom:72px;
-    width:min(320px,82vw);
-    background:#c0c0c0;
-    border:5px outset #fff;
-    z-index:5900;
-    box-shadow:0 0 20px #ff00c8;
-    display:none;
-    font-family:Tahoma,Arial,sans-serif;
-  }
-  .britney-player.show{display:block}
-  .britney-player .winbar{font-size:13px}
-  .britney-player iframe{
-    width:100%;
-    aspect-ratio:16/9;
-    display:block;
-    border:0;
-  }
-
-  .greece-grid{
+.greece-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:14px;
@@ -823,27 +800,9 @@
 
 </main>
 
-<button id="musicToggle" class="music-control">🎵 BRITNEY: PLAY</button>
+<button id="musicToggle" class="music-control">🔊 POP 2000: ON</button>
 
 
-<div class="britney-player" id="britneyPlayer">
-  <div class="winbar"><span>💿 BRITNEY_PLAYER.EXE</span><span>2000</span></div>
-  <iframe
-    id="britneyFrame"
-    title="Britney Spears - Oops!...I Did It Again"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modalbox">
-    <div class="winbar"><span>⚠️ Martina.exe</span><span>✕</span></div>
-    <div class="modalcontent">
-      <div id="modalText"></div>
-      <button class="trash-btn" id="closeModal" style="margin-top:20px;font-size:18px">OK</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -1099,40 +1058,149 @@ startGameBtn.addEventListener('click',()=>{
 });
 
 
-const britneyBtn = document.getElementById('musicToggle');
-const britneyPlayer = document.getElementById('britneyPlayer');
-const britneyFrame = document.getElementById('britneyFrame');
-let britneyLoaded = false;
-let britneyVisible = false;
 
-function startBritney(){
-  if(!britneyLoaded){
-    // Official Britney Spears YouTube video.
-    // Loading on user interaction gives autoplay the best chance of working;
-    // if the browser blocks sound autoplay, the visible player remains usable.
-    britneyFrame.src =
-      'https://www.youtube.com/embed/CduA0TULnow?autoplay=1&loop=1&playlist=CduA0TULnow&controls=1&modestbranding=1&playsinline=1';
-    britneyLoaded = true;
-  }
-  britneyPlayer.classList.add('show');
-  britneyVisible = true;
-  britneyBtn.textContent='🎵 BRITNEY: ON';
+
+
+// --- Original Y2K teen-pop soundtrack ---
+// Intentionally evokes the energy of turn-of-the-millennium dance-pop
+// without reproducing any existing song melody.
+
+let popCtx = null;
+let popTimer = null;
+let popOn = true;
+let popStep = 0;
+
+const bpm = 132;
+const stepMs = (60000 / bpm) / 2; // eighth notes
+
+function tone(freq, when, dur, type='triangle', vol=0.03){
+  const o = popCtx.createOscillator();
+  const g = popCtx.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, when);
+  g.gain.setValueAtTime(vol, when);
+  g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+  o.connect(g).connect(popCtx.destination);
+  o.start(when);
+  o.stop(when + dur + 0.02);
 }
 
-britneyBtn.addEventListener('click',()=>{
-  if(!britneyLoaded){
-    startBritney();
-    return;
+function kick(when){
+  const o = popCtx.createOscillator();
+  const g = popCtx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(145, when);
+  o.frequency.exponentialRampToValueAtTime(48, when + 0.09);
+  g.gain.setValueAtTime(0.20, when);
+  g.gain.exponentialRampToValueAtTime(0.001, when + 0.11);
+  o.connect(g).connect(popCtx.destination);
+  o.start(when);
+  o.stop(when + 0.12);
+}
+
+function clap(when){
+  for(let i=0;i<3;i++){
+    const o = popCtx.createOscillator();
+    const g = popCtx.createGain();
+    o.type = 'square';
+    o.frequency.value = 1500 + i*700;
+    g.gain.setValueAtTime(0.018, when + i*0.005);
+    g.gain.exponentialRampToValueAtTime(0.001, when + 0.055);
+    o.connect(g).connect(popCtx.destination);
+    o.start(when + i*0.005);
+    o.stop(when + 0.06);
   }
-  britneyVisible = !britneyVisible;
-  britneyPlayer.classList.toggle('show', britneyVisible);
-  britneyBtn.textContent = britneyVisible ? '🎵 BRITNEY: ON' : '🎵 BRITNEY: MOSTRA';
+}
+
+function hat(when, accent=false){
+  const o = popCtx.createOscillator();
+  const g = popCtx.createGain();
+  o.type='square';
+  o.frequency.value = accent ? 7200 : 5800;
+  g.gain.setValueAtTime(accent ? 0.010 : 0.006, when);
+  g.gain.exponentialRampToValueAtTime(0.001, when + 0.035);
+  o.connect(g).connect(popCtx.destination);
+  o.start(when);
+  o.stop(when + 0.04);
+}
+
+function playPopStep(){
+  if(!popOn || !popCtx) return;
+  const now = popCtx.currentTime + 0.01;
+
+  // Original minor-key bass line: A - C - F - G
+  const bassRoots = [110.00, 130.81, 87.31, 98.00];
+  const bar = Math.floor(popStep / 8) % 4;
+  const sub = popStep % 8;
+
+  if(sub === 0 || sub === 4) kick(now);
+  if(sub === 2 || sub === 6) clap(now);
+  hat(now, sub % 2 === 1);
+
+  // Bass groove
+  const bassPattern = [1,0,1,1,0,1,0,1];
+  if(bassPattern[sub]){
+    const f = bassRoots[bar] * (sub === 3 ? 2 : 1);
+    tone(f, now, 0.13, 'square', 0.028);
+  }
+
+  // Bright synth chords
+  const chords = [
+    [220.00,261.63,329.63],   // Am-ish
+    [261.63,329.63,392.00],   // C-ish
+    [174.61,220.00,261.63],   // F-ish
+    [196.00,246.94,293.66]    // G-ish
+  ];
+  if(sub === 0 || sub === 4){
+    chords[bar].forEach((f,idx)=>tone(f*2, now+0.015*idx, 0.18, 'sawtooth', 0.010));
+  }
+
+  // Distinct original hook, deliberately not based on any existing melody
+  const hook = [
+    659.25, 587.33, 523.25, 440.00,
+    523.25, 659.25, 783.99, 659.25,
+    698.46, 659.25, 523.25, 587.33,
+    493.88, 587.33, 659.25, 523.25
+  ];
+  if(sub % 2 === 0){
+    const note = hook[(Math.floor(popStep/2)) % hook.length];
+    tone(note, now+0.02, 0.14, 'triangle', 0.022);
+    tone(note*2, now+0.025, 0.08, 'sine', 0.006);
+  }
+
+  popStep++;
+}
+
+function startPop(){
+  if(!popOn) return;
+  if(!popCtx) popCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(popCtx.state === 'suspended') popCtx.resume();
+  if(popTimer) return;
+  playPopStep();
+  popTimer = setInterval(playPopStep, stepMs);
+}
+
+function stopPop(){
+  if(popTimer){
+    clearInterval(popTimer);
+    popTimer = null;
+  }
+}
+
+document.getElementById('musicToggle').addEventListener('click',()=>{
+  popOn = !popOn;
+  const btn = document.getElementById('musicToggle');
+  if(popOn){
+    btn.textContent='🔊 POP 2000: ON';
+    startPop();
+  }else{
+    btn.textContent='🔇 POP 2000: OFF';
+    stopPop();
+  }
 });
 
-// Try to start the official player from the first deliberate user click.
-enterBtn.addEventListener('click',()=>{
-  startBritney();
-}, {once:true});
+// Start after the first user interaction so browsers allow audio.
+enterBtn.addEventListener('click',()=>startPop(), {once:true});
 
 </script>
 </body>

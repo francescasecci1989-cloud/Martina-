@@ -17,6 +17,7 @@ GitHub mostrerà l'indirizzo pubblico del sito nella stessa pagina Pages.
 
 
 
+
 MUSICA
-Il sito usa un player YouTube del video ufficiale di Britney Spears.
-Non serve caricare alcun file MP3.
+La colonna sonora è generata direttamente dal browser ed è originale,
+con estetica teen-pop/Y2K. Non richiede file MP3 o collegamenti esterni.
