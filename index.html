@@ -449,7 +449,7 @@
     <p style="font-size:clamp(20px,4vw,30px);font-weight:900;">
       Stai per entrare nel sito ufficiale del <span style="color:#fff200">COMPLEANNO DI MARTINA</span>
     </p>
-    <div class="marquee"><span>✨ GLITTER ✨ EMOZIONI ✨ TECNOLOGIA AVANZATISSIMA DEL 1998 ✨</span></div>
+    <div class="marquee"><span>✨ GLITTER ✨ EMOZIONI ✨ TECNOLOGIA AVANZATISSIMA DEL 1991 ✨</span></div>
     <p style="font-size:20px;">
       Questo sito contiene: glitter, cuori, compleanni, scelte grafiche discutibili e zero dignità.
     </p>
@@ -497,7 +497,7 @@
       <div class="cell">Stato: <b>COMPLEANNO</b></div>
       <div class="cell">Professione: <b>essere favolosa</b></div>
       <div class="cell">Specialità: <b>sopravvivere alle persone</b></div>
-      <div class="cell">Potere speciale: <b>da definire, probabilmente pericoloso</b></div>
+      <div class="cell">Potere speciale: <b>molto pericoloso e non adatto ai minori di anni 18</b></div>
     </div>
     <div class="stamp">100%<br>CERTIFIED<br>ICON</div>
   </section>
@@ -507,7 +507,7 @@
     <div class="meter"><div class="meter-label">Bellezza</div><div class="bar"><div class="fill" data-width="100%"></div></div></div>
     <div class="meter"><div class="meter-label">Simpatia</div><div class="bar"><div class="fill" data-width="100%"></div></div></div>
     <div class="meter"><div class="meter-label">Pazienza</div><div class="bar"><div class="fill" data-width="100%"></div></div></div>
-    <div class="meter"><div class="meter-label">Voglia di festeggiare</div><div class="bar"><div class="fill" data-width="100%"></div></div></div>
+    <div class="meter"><div class="meter-label">Voglia di festeggiare: BASSA</div><div class="bar"><div class="fill" data-width="22%"></div></div></div>
     <div class="meter"><div class="meter-label">Tolleranza alle stronzate</div><div class="bar"><div class="fill special" data-width="120%"></div></div></div>
   </section>
 
@@ -526,6 +526,21 @@
       <div class="visitor">00000028</div>
     </div>
   </section>
+
+  <section class="section" style="text-align:center">
+    <h2>Ti auguro tanta Grecia</h2>
+    <div class="message-box" style="font-size:28px;font-weight:900">
+      🇬🇷 🌊 🏛️ 🍋 🐬 ☀️<br><br>
+      <span style="font-size:clamp(30px,6vw,58px);color:#fff200;text-shadow:4px 4px #000,7px 7px #0066ff;">
+        TI AUGURO TANTA GRECIA
+      </span>
+      <br><br>
+      possibilmente con mare blu, tramonti esagerati, feta a tradimento e zero persone moleste.
+      <br><br>
+      🇬🇷 🐬 🇬🇷 🐬 🇬🇷
+    </div>
+  </section>
+
 <section class="section" style="text-align:center">
     <div class="wordart small">BUON COMPLEANNO MARTINA!!!</div>
     <div class="icons">🎂 💖 🌈 ✨ 🎈 🪩</div>
@@ -546,7 +561,7 @@
   </section>
 </main>
 
-<button id="musicToggle" class="music-control">🔊 POP 1998: ON</button>
+<button id="musicToggle" class="music-control">🔊 POP 2000: ON</button>
 
 <div class="modal" id="modal">
   <div class="modalbox">
@@ -668,6 +683,18 @@ let musicTimer = null;
 let musicOn = true;
 let step = 0;
 
+function playTone(freq, start, duration, type='square', gainValue=0.03){
+  const osc = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  g.gain.setValueAtTime(gainValue, start);
+  g.gain.exponentialRampToValueAtTime(0.001, start + duration);
+  osc.connect(g).connect(audioCtx.destination);
+  osc.start(start);
+  osc.stop(start + duration + 0.02);
+}
+
 function startPopMusic(){
   if(!musicOn) return;
   if(!audioCtx){
@@ -676,59 +703,69 @@ function startPopMusic(){
   if(audioCtx.state === 'suspended') audioCtx.resume();
   if(musicTimer) return;
 
-  const bass = [110,110,146.83,164.81,110,110,196,164.81];
-  const lead = [440,493.88,523.25,493.88,392,440,493.88,392];
+  // Original fast teen-pop pattern, intentionally synthetic and Y2K.
+  const bass = [110,110,146.83,146.83,164.81,164.81,146.83,123.47];
+  const hook = [659.25,587.33,523.25,587.33,659.25,783.99,659.25,587.33];
+  const stab = [329.63,392.00,440.00,392.00];
+
   function tick(){
     if(!musicOn || !audioCtx) return;
     const now = audioCtx.currentTime;
 
+    // punchy kick
     const kick = audioCtx.createOscillator();
     const kg = audioCtx.createGain();
     kick.type = 'sine';
-    kick.frequency.setValueAtTime(120, now);
-    kick.frequency.exponentialRampToValueAtTime(48, now+0.09);
-    kg.gain.setValueAtTime(0.18, now);
-    kg.gain.exponentialRampToValueAtTime(0.001, now+0.11);
+    kick.frequency.setValueAtTime(150, now);
+    kick.frequency.exponentialRampToValueAtTime(48, now+0.08);
+    kg.gain.setValueAtTime(0.24, now);
+    kg.gain.exponentialRampToValueAtTime(0.001, now+0.10);
     kick.connect(kg).connect(audioCtx.destination);
-    kick.start(now); kick.stop(now+0.12);
+    kick.start(now); kick.stop(now+0.11);
 
-    const b = audioCtx.createOscillator();
-    const bg = audioCtx.createGain();
-    b.type = 'square';
-    b.frequency.value = bass[step % bass.length];
-    bg.gain.setValueAtTime(0.035, now);
-    bg.gain.exponentialRampToValueAtTime(0.001, now+0.20);
-    b.connect(bg).connect(audioCtx.destination);
-    b.start(now); b.stop(now+0.22);
+    // bass
+    playTone(bass[step % bass.length], now, 0.16, 'square', 0.04);
 
-    if(step % 2 === 0){
-      const l = audioCtx.createOscillator();
-      const lg = audioCtx.createGain();
-      l.type = 'triangle';
-      l.frequency.value = lead[(step/2) % lead.length | 0];
-      lg.gain.setValueAtTime(0.025, now);
-      lg.gain.exponentialRampToValueAtTime(0.001, now+0.28);
-      l.connect(lg).connect(audioCtx.destination);
-      l.start(now); l.stop(now+0.30);
+    // bright pop hook
+    playTone(hook[step % hook.length], now+0.02, 0.11, 'triangle', 0.035);
+
+    // off-beat synth stab for more dance feel
+    if(step % 2 === 1){
+      playTone(stab[step % stab.length], now+0.06, 0.08, 'sawtooth', 0.022);
     }
+
+    // tiny hi-hat noise-like click
+    const hat = audioCtx.createOscillator();
+    const hg = audioCtx.createGain();
+    hat.type = 'square';
+    hat.frequency.value = 7000;
+    hg.gain.setValueAtTime(0.012, now+0.08);
+    hg.gain.exponentialRampToValueAtTime(0.001, now+0.115);
+    hat.connect(hg).connect(audioCtx.destination);
+    hat.start(now+0.08); hat.stop(now+0.12);
+
     step++;
   }
+
   tick();
-  musicTimer = setInterval(tick, 250);
+  musicTimer = setInterval(tick, 180); // ~166 BPM feel
 }
 
 function stopPopMusic(){
-  if(musicTimer){ clearInterval(musicTimer); musicTimer = null; }
+  if(musicTimer){
+    clearInterval(musicTimer);
+    musicTimer = null;
+  }
 }
 
 document.getElementById('musicToggle').addEventListener('click',()=>{
   musicOn = !musicOn;
   const btn = document.getElementById('musicToggle');
   if(musicOn){
-    btn.textContent = '🔊 POP 1998: ON';
+    btn.textContent = '🔊 POP 2000: ON';
     startPopMusic();
   }else{
-    btn.textContent = '🔇 POP 1998: OFF';
+    btn.textContent = '🔇 POP 2000: OFF';
     stopPopMusic();
   }
 });
