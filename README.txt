@@ -16,7 +16,7 @@ Contiene un solo file: `index.html`.
 GitHub mostrerà l'indirizzo pubblico del sito nella stessa pagina Pages.
 
 
-AUDIO OPZIONALE
-Se possiedi legalmente il file audio che vuoi usare, rinominalo `oops.mp3`
-e caricalo nello stesso livello di `index.html` e `martina.webp`.
-Il pulsante musicale del sito lo userà automaticamente.
+
+MUSICA
+Il sito usa un player YouTube del video ufficiale di Britney Spears.
+Non serve caricare alcun file MP3.

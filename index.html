@@ -556,6 +556,63 @@
     margin:0 0 12px;
   }
 
+
+  .britney-player{
+    position:fixed;
+    right:14px;
+    bottom:72px;
+    width:min(320px,82vw);
+    background:#c0c0c0;
+    border:5px outset #fff;
+    z-index:5900;
+    box-shadow:0 0 20px #ff00c8;
+    display:none;
+    font-family:Tahoma,Arial,sans-serif;
+  }
+  .britney-player.show{display:block}
+  .britney-player .winbar{font-size:13px}
+  .britney-player iframe{
+    width:100%;
+    aspect-ratio:16/9;
+    display:block;
+    border:0;
+  }
+
+  .greece-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:18px;
+  }
+  .greece-card{
+    background:linear-gradient(135deg,#fff,#baf4ff 45%,#fff7a8);
+    color:#001c52;
+    border:5px outset #fff;
+    padding:14px;
+    text-align:center;
+    font-family:"Comic Sans MS",sans-serif;
+    font-weight:900;
+    box-shadow:5px 5px 0 #003b99;
+  }
+  .greece-card .avatar{
+    font-size:64px;
+    display:block;
+    margin-bottom:8px;
+    filter:drop-shadow(3px 3px 0 #fff);
+  }
+  .greece-warning{
+    background:#000;
+    color:#00ff49;
+    border:4px inset #aaa;
+    font-family:"Courier New",monospace;
+    padding:10px;
+    margin:14px 0;
+    text-align:left;
+  }
+  @media(max-width:700px){
+    .greece-grid{grid-template-columns:1fr}
+  }
+
 </style>
 </head>
 <body>
@@ -663,19 +720,67 @@
     </div>
   </section>
 
+  
   <section class="section" style="text-align:center">
     <h2>Ti auguro tanta Grecia</h2>
-    <div class="message-box" style="font-size:28px;font-weight:900">
-      🇬🇷 🌊 🏛️ 🍋 🐬 ☀️<br><br>
+
+    <div class="message-box" style="font-size:24px;font-weight:900">
+      🇬🇷 🐬 🌊 ☀️ 🍋 🇬🇷<br><br>
+
       <span style="font-size:clamp(30px,6vw,58px);color:#fff200;text-shadow:4px 4px #000,7px 7px #0066ff;">
         TI AUGURO TANTA GRECIA
       </span>
+
       <br><br>
-      possibilmente con mare blu, tramonti esagerati, feta a tradimento e zero persone moleste.
+      Ma soprattutto ti auguro una Grecia <b>completamente priva di esseri umani nel raggio di 4 chilometri</b>.
       <br><br>
-      🇬🇷 🐬 🇬🇷 🐬 🇬🇷
+      Niente famiglie rumorose. Niente gruppi organizzati. Niente bambini con il pallone.
+      Niente gente che decide di mettersi esattamente a 30 centimetri dal tuo asciugamano
+      nonostante ci siano 12 chilometri di spiaggia vuota.
+
+      <div class="greece-warning">
+        RICHIESTA VACANZA IN ELABORAZIONE...<br>
+        PERSONE INTORNO: 0<br>
+        MARE: ESAGERATAMENTE BLU<br>
+        ROTTURE DI COGLIONI: NON RILEVATE<br>
+        BONI DISPONIBILI: GENERAZIONE AI IN CORSO...
+      </div>
+
+      Dal momento che la natura non garantisce risultati, il sistema ha generato una selezione artificiale.
+    </div>
+
+    <div class="greece-grid">
+      <div class="greece-card">
+        <span class="avatar">🧔🏻‍♂️</span>
+        <b>BONO AI N. 1</b><br>
+        Greco. Alto. Non parla se non strettamente necessario.<br>
+        <small>Compatibilità vacanza: 98%</small>
+      </div>
+      <div class="greece-card">
+        <span class="avatar">👨🏽‍🦱</span>
+        <b>BONO AI N. 2</b><br>
+        Compare con un cocktail e poi si rimette in modalità silenziosa.<br>
+        <small>Compatibilità vacanza: 100%</small>
+      </div>
+      <div class="greece-card">
+        <span class="avatar">🧔🏽</span>
+        <b>BONO AI N. 3</b><br>
+        Non chiede “cosa vuoi fare stasera?”. Ha già prenotato.<br>
+        <small>Errore di sistema: troppo efficiente</small>
+      </div>
+      <div class="greece-card">
+        <span class="avatar">👨🏻‍🦰</span>
+        <b>BONO AI N. 4</b><br>
+        Non occupa il lettino accanto. Rimane a distanza regolamentare.<br>
+        <small>Funzione premium sbloccata</small>
+      </div>
+    </div>
+
+    <div class="ocean-strip">
+      <span>🇬🇷 🐬 ☀️ 🧔🏻‍♂️ 🌊 🐬 👨🏽‍🦱 🍋 🐬 🧔🏽 🇬🇷 🐬 👨🏻‍🦰 🌊 🐬 ☀️ 🇬🇷 🐬 🧔🏻‍♂️ 🌊 🐬 👨🏽‍🦱 🍋 🐬 🧔🏽</span>
     </div>
   </section>
+
 
 <section class="section" style="text-align:center">
     <div class="wordart small">BUON COMPLEANNO MARTINA!!!</div>
@@ -718,9 +823,18 @@
 
 </main>
 
-<button id="musicToggle" class="music-control">🎵 OOPS: FILE AUDIO MANCANTE</button>
+<button id="musicToggle" class="music-control">🎵 BRITNEY: PLAY</button>
 
-<audio id="britneyAudio" loop preload="auto"><source src="oops.mp3" type="audio/mpeg"></audio>
+
+<div class="britney-player" id="britneyPlayer">
+  <div class="winbar"><span>💿 BRITNEY_PLAYER.EXE</span><span>2000</span></div>
+  <iframe
+    id="britneyFrame"
+    title="Britney Spears - Oops!...I Did It Again"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
 
 <div class="modal" id="modal">
   <div class="modalbox">
@@ -841,8 +955,6 @@ document.querySelectorAll('[data-joke]').forEach(btn=>{
 const offline = document.getElementById('offline');
 const retryInternet = document.getElementById('retryInternet');
 const modemStatus = document.getElementById('modemStatus');
-const britneyAudio = document.getElementById('britneyAudio');
-
 function modemNoise(){
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const master = ctx.createGain();
@@ -905,23 +1017,7 @@ retryInternet.addEventListener('click',()=>{
   },3200);
 });
 
-// Optional local audio: if oops.mp3 is added next to index.html, this button controls it.
-document.getElementById('musicToggle').addEventListener('click', async ()=>{
-  const btn=document.getElementById('musicToggle');
-  try{
-    if(britneyAudio.paused){
-      await britneyAudio.play();
-      btn.textContent='🔊 OOPS: ON';
-    }else{
-      britneyAudio.pause();
-      btn.textContent='🔇 OOPS: OFF';
-    }
-  }catch(e){
-    btn.textContent='⚠️ AGGIUNGI oops.mp3';
-    modalText.innerHTML="<p><b>File audio non trovato.</b></p><p>Metti un file chiamato <code>oops.mp3</code> nello stesso punto di <code>index.html</code>.</p>";
-    modal.classList.add('show');
-  }
-});
+
 
 // ---- Tiny arcade game ----
 const arcadeScreen=document.getElementById('arcadeScreen');
@@ -1001,6 +1097,42 @@ startGameBtn.addEventListener('click',()=>{
     if(timeLeft<=0) endGame();
   },1000);
 });
+
+
+const britneyBtn = document.getElementById('musicToggle');
+const britneyPlayer = document.getElementById('britneyPlayer');
+const britneyFrame = document.getElementById('britneyFrame');
+let britneyLoaded = false;
+let britneyVisible = false;
+
+function startBritney(){
+  if(!britneyLoaded){
+    // Official Britney Spears YouTube video.
+    // Loading on user interaction gives autoplay the best chance of working;
+    // if the browser blocks sound autoplay, the visible player remains usable.
+    britneyFrame.src =
+      'https://www.youtube.com/embed/CduA0TULnow?autoplay=1&loop=1&playlist=CduA0TULnow&controls=1&modestbranding=1&playsinline=1';
+    britneyLoaded = true;
+  }
+  britneyPlayer.classList.add('show');
+  britneyVisible = true;
+  britneyBtn.textContent='🎵 BRITNEY: ON';
+}
+
+britneyBtn.addEventListener('click',()=>{
+  if(!britneyLoaded){
+    startBritney();
+    return;
+  }
+  britneyVisible = !britneyVisible;
+  britneyPlayer.classList.toggle('show', britneyVisible);
+  britneyBtn.textContent = britneyVisible ? '🎵 BRITNEY: ON' : '🎵 BRITNEY: MOSTRA';
+});
+
+// Try to start the official player from the first deliberate user click.
+enterBtn.addEventListener('click',()=>{
+  startBritney();
+}, {once:true});
 
 </script>
 </body>
