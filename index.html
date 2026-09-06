@@ -885,6 +885,7 @@ function runLoader(){
 continueBtn.addEventListener('click',()=>{
   loader.classList.remove('active');
   main.classList.add('active');
+  startPop();
   confetti(100);
   setTimeout(()=>{
     document.querySelectorAll('.fill').forEach(f=>{
@@ -1210,7 +1211,6 @@ document.getElementById('musicToggle').addEventListener('click',()=>{
 });
 
 // Start after the first user interaction so browsers allow audio.
-enterBtn.addEventListener('click',()=>startPop(), {once:true});
 
 </script>
 </body>
