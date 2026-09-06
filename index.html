@@ -366,6 +366,78 @@
     .section{padding:16px}
     .stamp{width:170px;height:170px;font-size:27px}
   }
+
+  .martina-photo-wrap{
+    width:min(430px,94%);
+    margin:0 auto 22px;
+    position:relative;
+    padding:12px;
+    border:9px ridge #fff;
+    background:repeating-linear-gradient(45deg,#ff30ca 0 14px,#00eaff 14px 28px,#fff100 28px 42px);
+    box-shadow:0 0 28px #fff, 0 0 50px #ff00c8;
+    overflow:visible;
+  }
+  .martina-photo{
+    display:block;
+    width:100%;
+    height:auto;
+    border:5px inset #ddd;
+    filter:saturate(1.08) contrast(1.03);
+  }
+  .dolphin{
+    position:absolute;
+    z-index:8;
+    font-size:clamp(42px,7vw,74px);
+    filter:drop-shadow(3px 3px 0 #00133b) drop-shadow(0 0 8px #7ffcff);
+    pointer-events:none;
+    user-select:none;
+  }
+  .d1{top:-28px;left:-38px;animation:dolphin1 3s ease-in-out infinite}
+  .d2{right:-42px;top:24%;animation:dolphin2 2.7s ease-in-out infinite}
+  .d3{left:10%;bottom:-42px;animation:dolphin3 3.6s ease-in-out infinite}
+  .d4{right:12%;bottom:-36px;animation:dolphin4 3.1s ease-in-out infinite}
+  @keyframes dolphin1{50%{transform:translate(40px,-18px) rotate(-18deg) scale(1.15)}}
+  @keyframes dolphin2{50%{transform:translate(-35px,-28px) rotate(22deg) scale(1.18)}}
+  @keyframes dolphin3{50%{transform:translate(55px,-22px) rotate(14deg) scale(1.12)}}
+  @keyframes dolphin4{50%{transform:translate(-48px,-26px) rotate(-20deg) scale(1.16)}}
+
+  .ocean-strip{
+    overflow:hidden;
+    white-space:nowrap;
+    background:linear-gradient(#00d5ff,#006fd6 55%,#003a8a);
+    border:6px ridge white;
+    padding:10px 0;
+    margin:18px 0;
+    box-shadow:0 0 18px #5cfaff;
+  }
+  .ocean-strip span{
+    display:inline-block;
+    min-width:220%;
+    font-size:42px;
+    animation:oceanMove 8s linear infinite;
+    text-shadow:0 0 10px white;
+  }
+  @keyframes oceanMove{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+  }
+
+  .music-control{
+    position:fixed;
+    right:14px;
+    bottom:14px;
+    z-index:6000;
+    border:4px outset white;
+    background:linear-gradient(#fff,#ff62d7);
+    color:#180018;
+    font-family:"Comic Sans MS",sans-serif;
+    font-weight:900;
+    padding:10px 14px;
+    cursor:pointer;
+    box-shadow:0 0 18px #fff200;
+    transform:rotate(-2deg);
+  }
+
 </style>
 </head>
 <body>
@@ -409,10 +481,16 @@
 
   <section class="section">
     <h2>Martina Superstar</h2>
-    <div class="photo-placeholder">
-      QUI PUOI METTERE UNA FOTO DI MARTINA<br><br>
-      (oppure lasciare così per il massimo effetto GeoCities)
+    
+    <div class="martina-photo-wrap">
+      <span class="dolphin d1">🐬</span>
+      <span class="dolphin d2">🐬</span>
+      <span class="dolphin d3">🐬</span>
+      <span class="dolphin d4">🐬</span>
+      <img src="martina.webp" alt="Martina" class="martina-photo">
     </div>
+    <div class="ocean-strip"><span>🐬 ✨ 🐬 🌊 🐬 💿 🐬 ✨ 🐬 🌊 🐬 💖 🐬 ✨ 🐬 🌊 🐬 💿 🐬 ✨ 🐬 🌊 🐬 💖 </span></div>
+
     <div class="profile">
       <div class="cell">Nome: <b>MARTINA</b></div>
       <div class="cell">Livello: <b>ICONA</b></div>
@@ -448,21 +526,11 @@
       <div class="visitor">00000028</div>
     </div>
   </section>
-
-  <section class="section">
-    <h2>E adesso una cosa seria…</h2>
-    <div class="message-box">
-      Martina, buon compleanno davvero.<br><br>
-      Ti auguro un anno pieno di cose bellissime, risate, giornate memorabili, persone che ti fanno stare bene e pochissime rotture di coglioni.<br><br>
-      <b style="font-size:34px;color:#fff200;text-shadow:3px 3px #000">TI VOGLIO BENE 💖</b>
-    </div>
-  </section>
-
-  <section class="section" style="text-align:center">
+<section class="section" style="text-align:center">
     <div class="wordart small">BUON COMPLEANNO MARTINA!!!</div>
     <div class="icons">🎂 💖 🌈 ✨ 🎈 🪩</div>
     <p style="font-size:24px;font-weight:bold">
-      Che questo nuovo livello della tua vita sia pieno di cose bellissime, risate e pochissime rotture di coglioni.
+      NUOVO LIVELLO SBLOCCATO. Martina.exe continua a funzionare contro ogni previsione.
     </p>
     <button class="trash-btn" id="finaleBtn">CLICCA PER IL GRAN FINALE</button>
     <div class="footer">
@@ -477,6 +545,8 @@
     </div>
   </section>
 </main>
+
+<button id="musicToggle" class="music-control">🔊 POP 1998: ON</button>
 
 <div class="modal" id="modal">
   <div class="modalbox">
@@ -524,6 +594,7 @@ document.addEventListener('pointermove',e=>{
 });
 
 enterBtn.addEventListener('click',()=>{
+  startPopMusic();
   confetti(120);
   setTimeout(()=>{
     intro.classList.remove('active');
@@ -591,6 +662,77 @@ document.querySelectorAll('[data-joke]').forEach(btn=>{
     modal.classList.add('show');
   })
 });
+
+let audioCtx = null;
+let musicTimer = null;
+let musicOn = true;
+let step = 0;
+
+function startPopMusic(){
+  if(!musicOn) return;
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  if(musicTimer) return;
+
+  const bass = [110,110,146.83,164.81,110,110,196,164.81];
+  const lead = [440,493.88,523.25,493.88,392,440,493.88,392];
+  function tick(){
+    if(!musicOn || !audioCtx) return;
+    const now = audioCtx.currentTime;
+
+    const kick = audioCtx.createOscillator();
+    const kg = audioCtx.createGain();
+    kick.type = 'sine';
+    kick.frequency.setValueAtTime(120, now);
+    kick.frequency.exponentialRampToValueAtTime(48, now+0.09);
+    kg.gain.setValueAtTime(0.18, now);
+    kg.gain.exponentialRampToValueAtTime(0.001, now+0.11);
+    kick.connect(kg).connect(audioCtx.destination);
+    kick.start(now); kick.stop(now+0.12);
+
+    const b = audioCtx.createOscillator();
+    const bg = audioCtx.createGain();
+    b.type = 'square';
+    b.frequency.value = bass[step % bass.length];
+    bg.gain.setValueAtTime(0.035, now);
+    bg.gain.exponentialRampToValueAtTime(0.001, now+0.20);
+    b.connect(bg).connect(audioCtx.destination);
+    b.start(now); b.stop(now+0.22);
+
+    if(step % 2 === 0){
+      const l = audioCtx.createOscillator();
+      const lg = audioCtx.createGain();
+      l.type = 'triangle';
+      l.frequency.value = lead[(step/2) % lead.length | 0];
+      lg.gain.setValueAtTime(0.025, now);
+      lg.gain.exponentialRampToValueAtTime(0.001, now+0.28);
+      l.connect(lg).connect(audioCtx.destination);
+      l.start(now); l.stop(now+0.30);
+    }
+    step++;
+  }
+  tick();
+  musicTimer = setInterval(tick, 250);
+}
+
+function stopPopMusic(){
+  if(musicTimer){ clearInterval(musicTimer); musicTimer = null; }
+}
+
+document.getElementById('musicToggle').addEventListener('click',()=>{
+  musicOn = !musicOn;
+  const btn = document.getElementById('musicToggle');
+  if(musicOn){
+    btn.textContent = '🔊 POP 1998: ON';
+    startPopMusic();
+  }else{
+    btn.textContent = '🔇 POP 1998: OFF';
+    stopPopMusic();
+  }
+});
+
 </script>
 </body>
 </html>
