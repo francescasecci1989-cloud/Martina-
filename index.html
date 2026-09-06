@@ -802,7 +802,14 @@
 
 <button id="musicToggle" class="music-control">🔊 POP 2000: ON</button>
 
-
+<div class="modal" id="modal">
+  <div class="modalbox">
+    <div class="winbar"><span>⚠️ Martina.exe</span><span>✕</span></div>
+    <div class="modalcontent">
+      <div id="modalText"></div>
+      <button class="trash-btn" id="closeModal" style="margin-top:20px;font-size:18px">OK</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -810,6 +817,7 @@ const intro = document.getElementById('intro');
 const loader = document.getElementById('loader');
 const main = document.getElementById('main');
 const enterBtn = document.getElementById('enterBtn');
+const offline = document.getElementById('offline');
 const progressFill = document.getElementById('progressFill');
 const statusText = document.getElementById('statusText');
 const continueBtn = document.getElementById('continueBtn');
@@ -898,8 +906,11 @@ document.getElementById('finaleBtn').addEventListener('click',()=>{
   modal.classList.add('show');
 });
 
-document.getElementById('closeModal').addEventListener('click',()=>modal.classList.remove('show'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+const closeModalBtn = document.getElementById('closeModal');
+if(closeModalBtn && modal){
+  closeModalBtn.addEventListener('click',()=>modal.classList.remove('show'));
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+}
 
 document.querySelectorAll('[data-joke]').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -911,7 +922,6 @@ document.querySelectorAll('[data-joke]').forEach(btn=>{
 
 
 
-const offline = document.getElementById('offline');
 const retryInternet = document.getElementById('retryInternet');
 const modemStatus = document.getElementById('modemStatus');
 function modemNoise(){
